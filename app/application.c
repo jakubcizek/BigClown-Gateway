@@ -55,6 +55,7 @@ void bc_radio_pub_on_buffer(uint64_t *id, uint8_t *buffer, size_t length)
     temperature = temperature_c / 100.0f;
     pressure = (pressure_c / 100.0f) + 900;
 
+    // BCD = BigClown Data header
     sprintf(bf, "BCD;ID:%" PRIu64 ";T:%.2f;H:%d;L:%d;P:%.2f\r\n", *id, temperature, humidity, light, pressure); 
     bc_uart_async_write(BC_UART_UART2, bf, strlen(bf));
 }
