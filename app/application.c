@@ -17,35 +17,8 @@ void uart_init()
 static void stop_pairing(void* param)
 {
     (void) param;
-
-    bc_radio_pairing_mode_start();
-    /*
-    uint64_t devices_address[BC_RADIO_MAX_DEVICES];
-    bc_radio_get_peer_id(devices_address, BC_RADIO_MAX_DEVICES);
-    bc_uart_async_write(BC_UART_UART2, "Sparovane peery:\r\n", 18);
-    for (int i = 0; i < BC_RADIO_MAX_DEVICES; i++)
-	{
-		if (devices_address[i] != 0)
-		{
-            sprintf(buffer, "Peer ID:  %lld\r\n", devices_address[i]); 
-            bc_uart_async_write(BC_UART_UART2, buffer, strlen(buffer));
-            bc_radio_peer_device_remove(devices_address[i]);
-		}
-	}
-    */
+    bc_radio_pairing_mode_stop();
 }
-
-/*
-void radio_event(bc_radio_event_t event, void *event_param)
-{
-    (void) event_param;
-
-    if(event == BC_RADIO_EVENT_ATTACH){;}
-    else if(event == BC_RADIO_EVENT_DETACH){;}
-    else if(event == BC_RADIO_EVENT_ATTACH_FAILURE){;}
-    else if(event == BC_RADIO_EVENT_INIT_DONE){;}
-}
-*/
 
 void bc_radio_pub_on_int(uint64_t *id, char *subtopic, int *value)
 {
@@ -100,5 +73,4 @@ void application_init(void)
     bc_radio_automatic_pairing_start();
     bc_radio_pairing_mode_start();
     bc_scheduler_register(stop_pairing, NULL, bc_tick_get() + 3000);
-    //bc_radio_set_event_handler(radio_event, NULL);
 }
